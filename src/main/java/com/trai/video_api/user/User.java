@@ -21,9 +21,21 @@ public class User {
     private String lastName;
     private String email;
     private String username;
+    private String passwordHash;
     private Instant createdAt;
     private Instant updatedAt;
     private String profilePicture;//link to their picture store in s3
-    private String passwordHash;
-
+    
+    //constructor
+    public User (String firstName, String lastName, String email, String username, String passwordHash, Instant createdAt, Instant updatedAt, String profilePicture){
+        //initialise fields
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.profilePicture = profilePicture;
+    }
 }
