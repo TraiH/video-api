@@ -44,7 +44,7 @@ public class User {
     }
 
     // getters and setters
-    public UUID getID() { //returns unique ID
+    public UUID getID() { // returns unique ID
         return this.id;
     }
 
@@ -52,25 +52,27 @@ public class User {
         return this.firstName + " " + this.lastName; // Return full name- do I need to get First and Last name first?
     }
 
-    public String getUsername() { //returns username
+    public String getUsername() { // returns username
         return this.username;
     }
 
-    public void setUsername(String username) { //updates username -  exception if there is already a username with the same username?
+    public void setUsername(String username) { // updates username - exception if there is already a username with the
+                                               // same username?
         this.username = username;
     }
 
-    public String getEmail() { //returns email address - need exception incase wrong email address format?
+    public String getEmail() { // returns email address - need exception incase wrong email address format?
         return this.email;
     }
 
-    public void setEmail(String email) { //updates email- need exception incase wrong email address format?
+    public void setEmail(String email) { // updates email- need exception incase wrong email address format?
         this.email = email;
     }
-    public void setPasswordHash(String passwordHash) { //updates password - exception to ensure the password is secure?
+
+    public void setPasswordHash(String passwordHash) { // updates password - exception to ensure the password is secure?
         this.passwordHash = passwordHash;
     }
-    
+
     public Instant getCreatedAt() {
         return this.createdAt;
     }
@@ -79,11 +81,11 @@ public class User {
         return this.updatedAt;
     }
 
-    public String profilePicture() { 
+    public String profilePicture() {
         return this.profilePicture;
     }
 
-    public void setProfilePicture(String profilePicture) { 
+    public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
 }
