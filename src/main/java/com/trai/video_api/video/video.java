@@ -23,8 +23,13 @@ public class Video {
     private String videoUrl; // temporary signed S3 URL
 
     // constructor
-
-    // initialise fields
+    public Video(String description, Instant createdAt, Instant updatedAt, String videoUrl) {
+        // initialise fields
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.videoUrl = videoUrl;
+    }
 
     // getters & setters
 }
