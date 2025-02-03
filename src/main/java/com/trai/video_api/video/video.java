@@ -32,19 +32,20 @@ public class Video {
     }
 
     // getters & setters
-    public UUID getID() { 
+    public UUID getID() {
         return this.id;
     }
 
-    public UUID getUserId() { //can I do this? I need to get the user from the user table and return the UserID
+    public UUID getUserId() { // can I do this? I need to get the user from the user table and return the
+                              // UserID
         return this.userId;
     }
 
-    public String getDescription() { 
+    public String getDescription() {
         return this.description;
     }
 
-    public void setDescription(String description) { 
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -61,6 +62,6 @@ public class Video {
     }
 
     public void setVideoUrl(String videoUrl) {
-        this.videoUrl =  videoUrl;
+        this.videoUrl = videoUrl;
     }
 }
