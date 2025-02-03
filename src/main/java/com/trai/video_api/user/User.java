@@ -15,10 +15,8 @@ import jakarta.persistence.Id;
 @Entity
 @Table(name = "users") // creates a table called users
 public class User {
-
     @Id // table columns
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // GeneratedValue UUID - an identifier generates an ID which is
-                                                        // going to be unique across the database
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // GeneratedValue UUID - a unique identifier
     private UUID id; // do I need to include this in the constructor?
     private String firstName;
     private String lastName;
