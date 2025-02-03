@@ -79,7 +79,7 @@ public class User {
         return this.updatedAt;
     }
 
-    public String profilePicture() {
+    public String getProfilePicture() {
         return this.profilePicture;
     }
 

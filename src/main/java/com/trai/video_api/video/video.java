@@ -15,7 +15,7 @@ public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private UUID userID; // foreign key to user UUID - Do I need to code anything else to link the
+    private UUID userId; // foreign key to user UUID - Do I need to code anything else to link the
                          // tables?
     private String description;
     private Instant createdAt;
@@ -32,4 +32,35 @@ public class Video {
     }
 
     // getters & setters
+    public UUID getID() { 
+        return this.id;
+    }
+
+    public UUID getUserId() { //can I do this? I need to get the user from the user table and return the UserID
+        return this.userId;
+    }
+
+    public String getDescription() { 
+        return this.description;
+    }
+
+    public void setDescription(String description) { 
+        this.description = description;
+    }
+
+    public Instant getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return this.updatedAt;
+    }
+
+    public String getVideoUrl() {
+        return this.videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl =  videoUrl;
+    }
 }
