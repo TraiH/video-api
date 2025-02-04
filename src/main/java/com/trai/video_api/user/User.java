@@ -2,13 +2,16 @@ package com.trai.video_api.user;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+import jakarta.persistence.criteria.Order;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 //entity class to represent users who interact with the video API
 // This tells Hibernate to make a table out of this class
@@ -17,7 +20,10 @@ import jakarta.persistence.Id;
 public class User {
     @Id // table columns
     @GeneratedValue(strategy = GenerationType.IDENTITY) // GeneratedValue UUID - a unique identifier
-    private UUID id; // do I need to include this in the constructor?
+    @OneToMany(mappedBy = "videos")// connects entity user to video one user to many videos
+
+    private List<Order> orders;
+    private UUID userId;
     private String firstName;
     private String lastName;
     private String username;
@@ -42,20 +48,27 @@ public class User {
     }
 
     // getters and setters
-    public UUID getID() { // returns unique ID
-        return this.id;
+    public UUID getUserId() { // returns unique ID
+        return this.userId;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
     }
 
     public String getFullName() {
-        return this.firstName + " " + this.lastName; // Return full name- do I need to get First and Last name first?
+        return this.firstName + " " + this.lastName;
     }
 
     public String getUsername() { // returns username
         return this.username;
     }
 
-    public void setUsername(String username) { // updates username - exception if there is already a username with the
-                                               // same username?
+    public void setUsername(String username) { // updates username - exception if there is already a username with the same username?
         this.username = username;
     }
 
@@ -63,11 +76,11 @@ public class User {
         return this.email;
     }
 
-    public void setEmail(String email) { // updates email- need exception incase wrong email address format?
+    public void setEmail(String email) { // updates email- need exception incase wrong email address format? validators - research
         this.email = email;
     }
 
-    public void setPasswordHash(String passwordHash) { // updates password - exception to ensure the password is secure?
+    public void setPasswordHash(String passwordHash) { // updates password - exception to ensure the password is secure? create a custom exception so that "if" password is more than x characters - should this be in the service?
         this.passwordHash = passwordHash;
     }
 

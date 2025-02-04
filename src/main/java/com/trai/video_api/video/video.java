@@ -3,10 +3,14 @@ package com.trai.video_api.video;
 import java.time.Instant;
 import java.util.UUID;
 
+import com.trai.video_api.user.User;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,8 +19,11 @@ public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private UUID userId; // foreign key to user UUID - Do I need to code anything else to link the
-                         // tables?
+
+    @ManyToOne // many videos to one user
+    @JoinColumn(name = "userId")
+    private User user;
+
     private String description;
     private Instant createdAt;
     private Instant updatedAt;
@@ -36,9 +43,8 @@ public class Video {
         return this.id;
     }
 
-    public UUID getUserId() { // can I do this? I need to get the user from the user table and return the
-                              // UserID
-        return this.userId;
+    public User getUserId() { //is this correct to return the userId from the User entity?
+    return this.user;
     }
 
     public String getDescription() {
