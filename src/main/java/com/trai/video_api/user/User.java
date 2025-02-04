@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.antlr.v4.runtime.misc.NotNull;
+
 import com.trai.video_api.video.Video;
 
 import jakarta.persistence.Column;
@@ -26,11 +27,12 @@ import jakarta.persistence.OneToMany;
    // username and email as long as the username and emails are unique
 
 public class User {
-    @Id // table columns
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // GeneratedValue UUID - a unique identifier
-    @OneToMany(mappedBy = "videos") // connects entity user to video one user to many videos
+    @OneToMany(mappedBy = "user") // connects entity user to video one user to many videos
 
     private List<Video> videos;
+
+    @Id // table columns
+    @GeneratedValue(strategy = GenerationType.AUTO) // GeneratedValue UUID - a unique identifier
     private UUID userId;
 
     @SuppressWarnings("deprecation")

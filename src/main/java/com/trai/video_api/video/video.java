@@ -23,7 +23,7 @@ public class Video {
     private UUID id;
 
     @ManyToOne // many videos to one user
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id") // JPA conves to snake case
     private User user;
 
     @SuppressWarnings("deprecation")
@@ -34,8 +34,9 @@ public class Video {
     private String videoUrl; // temporary signed S3 URL
 
     // constructor
-    public Video(String description, Instant createdAt, Instant updatedAt, String videoUrl) {
+    public Video(User user, String description, Instant createdAt, Instant updatedAt, String videoUrl) {
         // initialise fields
+        this.user = user;
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -43,12 +44,15 @@ public class Video {
     }
 
     // getters & setters
-    public UUID getID() {
+    public UUID getId() {
         return this.id;
     }
 
-    public User getUserId() { //is this correct to return the userId from the User entity?
-    return this.user;
+    public User getUser() { // is this correct to return the userId from the User entity?
+        return this.user;
+    }
+
+    public User setUser(User user) { // is this correct? Do I need to have a User user?
     }
 
     public String getDescription() {

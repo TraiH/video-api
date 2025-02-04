@@ -20,6 +20,4 @@ public interface UserRepository extends ListCrudRepository<User, UUID>{
 
     Optional<User> findByLastName(String lastName); 
 
-    //@Query exam queries? 
-
 }
