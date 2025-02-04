@@ -3,6 +3,8 @@ package com.trai.video_api.video;
 import java.time.Instant;
 import java.util.UUID;
 
+import org.antlr.v4.runtime.misc.NotNull;
+
 import com.trai.video_api.user.User;
 
 import jakarta.persistence.Entity;
@@ -24,6 +26,8 @@ public class Video {
     @JoinColumn(name = "userId")
     private User user;
 
+    @SuppressWarnings("deprecation")
+    @NotNull
     private String description;
     private Instant createdAt;
     private Instant updatedAt;
