@@ -28,15 +28,17 @@ public class Video {
 
     @SuppressWarnings("deprecation")
     @NotNull
+    private String title;
     private String description;
     private Instant createdAt;
     private Instant updatedAt;
     private String videoUrl; // temporary signed S3 URL
 
     // constructor
-    public Video(User user, String description, Instant createdAt, Instant updatedAt, String videoUrl) {
+    public Video(User user, String title, String description, Instant createdAt, Instant updatedAt, String videoUrl) {
         // initialise fields
         this.user = user;
+        this.title = title;
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -53,6 +55,15 @@ public class Video {
     }
 
     public User setUser(User user) { // is this correct? Do I need to have a User user?
+        return this.user;
+    }
+
+    public String getTitle(String title) {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
