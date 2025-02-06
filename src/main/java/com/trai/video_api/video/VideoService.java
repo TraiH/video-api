@@ -14,7 +14,7 @@ public class VideoService {
     public final VideoRepository videoRepository;
 
     // initialise the repository dependency (dependency injection) so that the
-    // service layer can comminicate withthe database
+    // service layer can communicate with the database
     public VideoService(VideoRepository videoRepository) {
         this.videoRepository = videoRepository;
     }

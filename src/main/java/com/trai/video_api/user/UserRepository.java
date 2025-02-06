@@ -2,7 +2,6 @@ package com.trai.video_api.user;
 // store and retrieve users from a database
 //name, username, ID, email address
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
