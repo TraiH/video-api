@@ -98,6 +98,16 @@ public class VideoController {
 
   }
 
+  // find all videos by specific user
+  @GetMapping("/users/{userId}/videos")
+  public ResponseEntity<Optional<Video>> getAllVideosForUser(@PathVariable UUID userId) {
+    Optional<Video> videos = videoService.getAllVideosForUser(userId);
+    if (videos.isEmpty()) {
+      return ResponseEntity.notFound().build(); // Return 404 if no videos are found
+    }
+    return ResponseEntity.ok(videos); // Return 200 OK with the list of videos
+  }
+
   // update the video
   @PutMapping("/{id}")
   public ResponseEntity<Video> updateVideo(@PathVariable UUID videoId, @RequestBody Video updatedVideo) {

@@ -94,7 +94,7 @@ public class UserController {
     Optional<User> user = userService.getUserById(userId);
 
     if (user.isPresent()) {
-      userService.deleteUser(userId); // Call service to delete the video
+      userService.deleteUser(userId); 
       return ResponseEntity.noContent().build(); // Return 204 No Content (successful deletion)
     } else {
       return ResponseEntity.notFound().build(); // Return 404 Not Found

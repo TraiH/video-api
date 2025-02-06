@@ -46,6 +46,12 @@ public class VideoService {
         return videoRepository.findByTitleContainingIgnoreCase(title);
     }
 
+    // Fetch all videos for a specific user by userId
+public Optional<Video> getAllVideosForUser(UUID userId) {
+    // Find all videos where the user ID matches the provided userId
+    return this.videoRepository.findById(userId);
+}
+
     // update the video
     public void updateVideo(Video updateVideo) {
         videoRepository.save(updateVideo); // Use save() to update the video
