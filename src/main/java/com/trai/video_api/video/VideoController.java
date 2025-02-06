@@ -9,6 +9,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 //When a user fetches a video by ID, the VideoController would handle the request
 
@@ -73,7 +76,7 @@ public class VideoController {
 
   // fetch video by tags
   @GetMapping("/tags/{tags}")
-  public ResponseEntity<Video> getVideo(@RequestParam List<String> tags) {
+  public ResponseEntity<Video> getVideoByTags(@RequestParam List<String> tags) {
     Optional<Video> video = videoService.getVideoByTags(tags);
 
     if (video.isPresent()) {
@@ -96,5 +99,33 @@ public class VideoController {
       
      
   }
+
+  //update the video
+  @PutMapping("/{id}")
+  public ResponseEntity<Video>updateVideo(@PathVariable UUID videoId, @RequestBody Video updatedVideo) {
+    Optional<Video> video = videoService.getVideoById(videoId);
+      
+    if (video.isPresent()) {
+      updatedVideo.setId(videoId);
+      videoService.updateVideo(updatedVideo);
+      return ResponseEntity.ok(updatedVideo);
+    } else {
+        return ResponseEntity.notFound().build(); // 404 if no videos found
+    }
+    
+  }
+
+  //delete the video
+  @DeleteMapping("/{id}")
+public ResponseEntity<Video> deleteVideo(@PathVariable UUID videoId) {
+    Optional<Video> video = videoService.getVideoById(videoId);
+    
+    if (video.isPresent()) {
+        videoService.deleteVideo(videoId); // Call service to delete the video
+        return ResponseEntity.noContent().build(); // Return 204 No Content (successful deletion)
+    } else {
+        return ResponseEntity.notFound().build(); // Return 404 Not Found
+    }
+}
 
 }

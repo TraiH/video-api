@@ -52,6 +52,9 @@ public class Video {
         return this.videoId;
     }
 
+    public void setId(UUID videoId) {
+        this.videoId = videoId;
+    }
     public User getUser() { // is this correct to return the userId from the User entity?
         return this.user;
     }
