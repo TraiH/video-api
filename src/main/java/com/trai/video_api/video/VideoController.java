@@ -47,8 +47,8 @@ public class VideoController {
   // This method fetches a video by its id from the database and returns it if it
   // exists
   @GetMapping("/{id}")
-  public ResponseEntity<Video> getVideo(@PathVariable UUID id) {
-    Optional<Video> video = videoRepository.findById(id);
+  public ResponseEntity<Video> getVideo(@PathVariable UUID videoId) {
+    Optional<Video> video = videoService.getVideoById(videoId);
 
     if (video.isPresent()) {
       return ResponseEntity.ok(video.get()); // 200 OK

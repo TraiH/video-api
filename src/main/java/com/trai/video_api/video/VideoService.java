@@ -1,5 +1,8 @@
 package com.trai.video_api.video;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +17,14 @@ public class VideoService {
     this.videoRepository = videoRepository;
   }
 
-  //saves a new video 
+  //saves a new video to db
   public Video createVideo(Video video) throws IllegalArgumentException, OptimisticLockingFailureException {
     this.videoRepository.save(video);
     return video;
   }
+
+  //fetch video from db
+  public Optional<Video> getVideoById(UUID videoId) {
+        return videoRepository.findById(videoId);
+    }
 }
