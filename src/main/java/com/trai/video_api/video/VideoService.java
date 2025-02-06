@@ -1,5 +1,6 @@
 package com.trai.video_api.video;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,18 +14,34 @@ public class VideoService {
 
   public final VideoRepository videoRepository;
 
+    // initialise the repository dependency (dependency injection) so that the service layer can comminicate withthe database
   public VideoService(VideoRepository videoRepository) {
-    this.videoRepository = videoRepository;
-  }
+    this.videoRepository = videoRepository; 
+    } 
 
   //saves a new video to db
   public Video createVideo(Video video) throws IllegalArgumentException, OptimisticLockingFailureException {
     this.videoRepository.save(video);
     return video;
-  }
+    }
 
   //fetch video from db
   public Optional<Video> getVideoById(UUID videoId) {
         return videoRepository.findById(videoId);
+    }
+
+    //fetch video by title
+  public Optional<Video> getVideoByTitle(String title) {
+    return videoRepository.findByTitle(title);
+    }
+
+    //fetch video by tags
+  public Optional<Video> getVideoByTags(String tags) {
+    return videoRepository.findByTags(tags);
+}
+
+    //fetch a video if a partial title is searched
+    public Optional<Video> getVideosByPartialTitle(String title) {
+        return videoRepository.findByTitleContainingIgnoreCase(title);
     }
 }

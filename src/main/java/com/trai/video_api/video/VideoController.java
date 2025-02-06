@@ -1,5 +1,6 @@
 package com.trai.video_api.video;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -55,6 +57,44 @@ public class VideoController {
     } else {
       return ResponseEntity.notFound().build(); // 404 Not Found
     }
+  }
+
+  // fetch video by title
+  @GetMapping("/title/{title}")
+  public ResponseEntity<Video> getVideo(@PathVariable String title) {
+    Optional<Video> video = videoService.getVideoByTitle(title);
+
+    if (video.isPresent()) {
+      return ResponseEntity.ok(video.get()); // 200 OK
+    } else {
+      return ResponseEntity.notFound().build(); // 404 Not Found
+    }
+  }
+
+  // fetch video by tags
+  @GetMapping("/tags/{tags}")
+  public ResponseEntity<Video> getVideo(@RequestParam List<String> tags) {
+    Optional<Video> video = videoService.getVideoByTags(tags);
+
+    if (video.isPresent()) {
+      return ResponseEntity.ok(video.get()); // 200 OK
+    } else {
+      return ResponseEntity.notFound().build(); // 404 Not Found
+    }
+  }
+
+  //fetch video with partial title in the search
+  @GetMapping("/search/title/{title}")
+  public ResponseEntity<Video> searchVideosByTitle(@PathVariable String title) {
+    Optional<Video> video = videoService.getVideosByPartialTitle(title);
+      
+      if (video.isPresent()) {
+        return ResponseEntity.ok(video.get());
+      } else {
+          return ResponseEntity.notFound().build(); // 404 if no videos found
+      }
+      
+     
   }
 
 }
