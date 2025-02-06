@@ -1,9 +1,13 @@
 package com.trai.video_api.user;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+
+import com.trai.video_api.video.Video;
 
 @Service
 public class UserService {
@@ -20,12 +24,14 @@ public class UserService {
     return this.userRepository.findAll();
   }
 
-  
+  public Optional<User> getUserById(UUID userId) {
+    return userRepository.findById(userId);
+  }
+
   public Optional<User> getUserByFirstName(String firstName) {
     return this.userRepository.findByFirstName(firstName);
   }
 
-  
   public Optional<User> getUserByLastName(String lastName) {
     return this.userRepository.findByLastName(lastName);
   }
@@ -33,12 +39,25 @@ public class UserService {
   public Optional<User> getUserByUsername(String userame) {
     return this.userRepository.findByUsername(userame);
   }
+
+  public Optional<User> getUserByEmail(String email) {
+    return this.userRepository.findByEmail(email);
+  }
+
+  // add to service for username so it is unique if present
+  // public void deleteIOU(UUID id) throws NoSuchElementException {
+  // if (iouRepository.findById(id).isPresent()) {
+  // iouRepository.deleteById(id);
+  // } else {
+  // throw new NoSuchElementException();
+  // }
+  // }
+
+  public void deleteUser(UUID userId) throws NoSuchElementException {
+    if (userRepository.findById(userId).isPresent()) {
+      userRepository.deleteById(userId);
+    } else {
+      throw new NoSuchElementException();
+    }
+  }
 }
-// add to service for username so it is unique if present
-// public void deleteIOU(UUID id) throws NoSuchElementException {
-// if (iouRepository.findById(id).isPresent()) {
-// iouRepository.deleteById(id);
-// } else {
-// throw new NoSuchElementException();
-// }
-// }

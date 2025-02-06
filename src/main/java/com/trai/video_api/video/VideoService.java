@@ -1,5 +1,6 @@
 package com.trai.video_api.video;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,7 +52,10 @@ public class VideoService {
     }
 
     //delete the video
-    public void deleteVideo(UUID videoId) {
-        videoRepository.deleteById(videoId); // Delete the video by its ID using the repository
-    }
+    public void deleteVideo(UUID videoId) throws NoSuchElementException {
+  if (videoRepository.findById(videoId).isPresent()) {
+    videoRepository.deleteById(videoId);
+  } else {
+    throw new NoSuchElementException();
+  }
 }

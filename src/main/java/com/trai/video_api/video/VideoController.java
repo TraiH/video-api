@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
 //When a user fetches a video by ID, the VideoController would handle the request
 
 //VideoController.getAllVideos()
@@ -76,7 +75,7 @@ public class VideoController {
 
   // fetch video by tags
   @GetMapping("/tags/{tags}")
-  public ResponseEntity<Video> getVideoByTags(@RequestParam List<String> tags) {
+  public ResponseEntity<Video> getVideoByTags(@PathVariable String tags) {
     Optional<Video> video = videoService.getVideoByTags(tags);
 
     if (video.isPresent()) {
@@ -86,46 +85,45 @@ public class VideoController {
     }
   }
 
-  //fetch video with partial title in the search
+  // fetch video with partial title in the search
   @GetMapping("/search/title/{title}")
   public ResponseEntity<Video> searchVideosByTitle(@PathVariable String title) {
     Optional<Video> video = videoService.getVideosByPartialTitle(title);
-      
-      if (video.isPresent()) {
-        return ResponseEntity.ok(video.get());
-      } else {
-          return ResponseEntity.notFound().build(); // 404 if no videos found
-      }
-      
-     
+
+    if (video.isPresent()) {
+      return ResponseEntity.ok(video.get());
+    } else {
+      return ResponseEntity.notFound().build(); // 404 if no videos found
+    }
+
   }
 
-  //update the video
+  // update the video
   @PutMapping("/{id}")
-  public ResponseEntity<Video>updateVideo(@PathVariable UUID videoId, @RequestBody Video updatedVideo) {
+  public ResponseEntity<Video> updateVideo(@PathVariable UUID videoId, @RequestBody Video updatedVideo) {
     Optional<Video> video = videoService.getVideoById(videoId);
-      
+
     if (video.isPresent()) {
       updatedVideo.setId(videoId);
       videoService.updateVideo(updatedVideo);
       return ResponseEntity.ok(updatedVideo);
     } else {
-        return ResponseEntity.notFound().build(); // 404 if no videos found
+      return ResponseEntity.notFound().build(); // 404 if no videos found
     }
-    
+
   }
 
-  //delete the video
+  // delete the video
   @DeleteMapping("/{id}")
-public ResponseEntity<Video> deleteVideo(@PathVariable UUID videoId) {
+  public ResponseEntity<Video> deleteVideo(@PathVariable UUID videoId) {
     Optional<Video> video = videoService.getVideoById(videoId);
-    
+
     if (video.isPresent()) {
-        videoService.deleteVideo(videoId); // Call service to delete the video
-        return ResponseEntity.noContent().build(); // Return 204 No Content (successful deletion)
+      videoService.deleteVideo(videoId); // Call service to delete the video
+      return ResponseEntity.noContent().build(); // Return 204 No Content (successful deletion)
     } else {
-        return ResponseEntity.notFound().build(); // Return 404 Not Found
+      return ResponseEntity.notFound().build(); // Return 404 Not Found
     }
-}
+  }
 
 }
