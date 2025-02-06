@@ -70,6 +70,9 @@ public class User {
         return this.userId;
     }
 
+    public void setUserId(UUID userId) { 
+        this.userId = userId;
+    }
     public String getFirstName() {
         return this.firstName;
     }

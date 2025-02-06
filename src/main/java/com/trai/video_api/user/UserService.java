@@ -28,6 +28,10 @@ public class UserService {
     return userRepository.findById(userId);
   }
 
+  public void updateUser(User updateUser) {
+    userRepository.save(updateUser); // Use save() to update
+}
+
   public Optional<User> getUserByFirstName(String firstName) {
     return this.userRepository.findByFirstName(firstName);
   }
