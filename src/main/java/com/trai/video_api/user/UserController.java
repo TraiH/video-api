@@ -105,6 +105,19 @@ public class UserController {
 
   }
 
+  @PutMapping("/email")
+  public ResponseEntity<User> updateUser(@PathVariable String email, @RequestBody User updatedUser) {
+    Optional<User> user = userService.getUserByEmail(email);
+
+    if (user.isPresent()) {
+      updatedUser.setEmail(email);
+      userService.updateUser(updatedUser);
+      return ResponseEntity.ok(updatedUser);
+    } else {
+      return ResponseEntity.notFound().build(); // 404 if no videos found
+    }
+
+  }
     @DeleteMapping("/{id}")
   public ResponseEntity<User> deleteUser(@PathVariable UUID userId) {
     Optional<User> user = userService.getUserById(userId);

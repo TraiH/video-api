@@ -48,6 +48,9 @@ public class UserService {
     return this.userRepository.findByEmail(email);
   }
 
+  public void updateEmail(String email) {
+    userRepository.save(updateUser);// not sure about this one?
+  }
   // add to service for username so it is unique if present
   // public void deleteIOU(UUID id) throws NoSuchElementException {
   // if (iouRepository.findById(id).isPresent()) {
