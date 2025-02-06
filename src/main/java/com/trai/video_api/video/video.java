@@ -29,16 +29,18 @@ public class Video {
     @SuppressWarnings("deprecation")
     @NotNull
     private String title;
+    private String tags;
     private String description;
     private Instant createdAt;
     private Instant updatedAt;
     private String videoUrl; // temporary signed S3 URL
 
     // constructor
-    public Video(User user, String title, String description, Instant createdAt, Instant updatedAt, String videoUrl) {
+    public Video(User user, String title, String tags, String description, Instant createdAt, Instant updatedAt, String videoUrl) {
         // initialise fields
         this.user = user;
         this.title = title;
+        this.tags = tags;
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -58,6 +60,14 @@ public class Video {
         return this.user;
     }
 
+    //set tag get tag
+    public String getTags(String tags) {
+        return this.tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
     public String getTitle(String title) {
         return this.title;
     }

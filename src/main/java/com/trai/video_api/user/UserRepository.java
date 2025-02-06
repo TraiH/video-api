@@ -7,7 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.repository.ListCrudRepository;
-
+import org.springframework.stereotype.Repository;
+@Repository
 public interface UserRepository extends ListCrudRepository<User, UUID>{
 
     // querie methods use optional rather than list because I want a unique result
@@ -19,5 +20,7 @@ public interface UserRepository extends ListCrudRepository<User, UUID>{
     Optional<User> findByFirstName(String firstName); 
 
     Optional<User> findByLastName(String lastName); 
+
+    Optional<User> findAllVideos(String videoUrl);
 
 }
