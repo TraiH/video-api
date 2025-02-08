@@ -30,10 +30,10 @@ public class VideoController {
   }
 
   // post a video
-  @PostMapping
-  public ResponseEntity<Video> createVideo(@RequestBody Video video) {
+  @PostMapping // should this be videoUrl rather than just video??
+  public ResponseEntity<Video> createVideo(@RequestBody Video videoUrl) {
     try {
-      return new ResponseEntity<Video>(this.videoService.createVideo(video), HttpStatusCode.valueOf(201));
+      return new ResponseEntity<Video>(this.videoService.createVideo(videoUrl), HttpStatusCode.valueOf(201));
     } catch (IllegalArgumentException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid data", e);
     } catch (OptimisticLockingFailureException e) {

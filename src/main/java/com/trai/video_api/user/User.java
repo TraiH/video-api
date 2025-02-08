@@ -85,12 +85,11 @@ public class User {
         return this.firstName + " " + this.lastName;
     }
 
-    public String getUsername() { // returns username
+    public String getUsername() { 
         return this.username;
     }
 
-    public void setUsername(String username) { // updates username - exception if there is already a username with the
-                                               // same username?
+    public void setUsername(String username) { 
         this.username = username;
     }
 
@@ -98,14 +97,11 @@ public class User {
         return this.email;
     }
 
-    public void setEmail(String email) { // updates email- need exception incase wrong email address format? validators
-                                         // - research
+    public void setEmail(String email) { 
         this.email = email;
     }
 
-    public void setPasswordHash(String passwordHash) { // updates password - exception to ensure the password is secure?
-                                                       // create a custom statement so that "if" password is more than x
-                                                       // characters - should this be in the service?
+    public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
 

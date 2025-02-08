@@ -8,8 +8,6 @@ import java.util.UUID;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
-import com.trai.video_api.video.Video;
-
 @Service
 public class UserService {
   public final UserRepository userRepository;
