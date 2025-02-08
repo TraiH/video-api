@@ -47,21 +47,22 @@ public class VideoService {
     }
 
     // Fetch all videos for a specific user by userId
-public Optional<Video> getAllVideosForUser(UUID userId) {
-    // Find all videos where the user ID matches the provided userId
-    return this.videoRepository.findById(userId);
-}
+    public Optional<Video> getAllVideosForUser(UUID userId) {
+        // Find all videos where the user ID matches the provided userId
+        return this.videoRepository.findById(userId);
+    }
 
     // update the video
     public void updateVideo(Video updateVideo) {
         videoRepository.save(updateVideo); // Use save() to update the video
     }
 
-    //delete the video
+    // delete the video
     public void deleteVideo(UUID videoId) throws NoSuchElementException {
-  if (videoRepository.findById(videoId).isPresent()) {
-    videoRepository.deleteById(videoId);
-  } else {
-    throw new NoSuchElementException();
-  }
+        if (videoRepository.findById(videoId).isPresent()) {
+            videoRepository.deleteById(videoId);
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
 }

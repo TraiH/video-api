@@ -104,7 +104,7 @@ public class User {
     }
 
     public void setPasswordHash(String passwordHash) { // updates password - exception to ensure the password is secure?
-                                                       // create a custom exception so that "if" password is more than x
+                                                       // create a custom statement so that "if" password is more than x
                                                        // characters - should this be in the service?
         this.passwordHash = passwordHash;
     }

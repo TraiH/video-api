@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import com.trai.video_api.video.Video;
@@ -28,6 +29,10 @@ public class UserService {
     return userRepository.findById(userId);
   }
 
+   public User createUser(User user) throws IllegalArgumentException, OptimisticLockingFailureException {
+        this.userRepository.save(user);
+        return user;
+    }
   public void updateUser(User updateUser) {
     userRepository.save(updateUser); // Use save() to update
 }
@@ -48,17 +53,7 @@ public class UserService {
     return this.userRepository.findByEmail(email);
   }
 
-  public void updateEmail(String email) {
-    userRepository.save(updateUser);// not sure about this one?
-  }
   // add to service for username so it is unique if present
-  // public void deleteIOU(UUID id) throws NoSuchElementException {
-  // if (iouRepository.findById(id).isPresent()) {
-  // iouRepository.deleteById(id);
-  // } else {
-  // throw new NoSuchElementException();
-  // }
-  // }
 
   public void deleteUser(UUID userId) throws NoSuchElementException {
     if (userRepository.findById(userId).isPresent()) {

@@ -20,6 +20,6 @@ public interface UserRepository extends ListCrudRepository<User, UUID>{
 
     Optional<User> findByLastName(String lastName); 
 
-    Optional<User> findAllVideos(String videoUrl);
+    // Optional<User> findAllVideos(String videoUrl);
 
 }
