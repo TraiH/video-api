@@ -50,22 +50,31 @@ public class UserController {
 
   @GetMapping("/{userId}")
   public ResponseEntity<User> getUser(@PathVariable UUID userId) {
-    Optional<User> user = userService.getUserById(userId);
+    try {
+      Optional<User> user = userService.getUserById(userId);
 
-    if (user.isPresent()) {
-      return ResponseEntity.ok(user.get()); // 200 OK
-    } else {
-      return ResponseEntity.notFound().build(); // 404 Not Found
+      if (user.isPresent()) {
+        return ResponseEntity.ok(user.get()); // 200 OK
+      } else {
+        return ResponseEntity.notFound().build(); // 404 Not Found
+      }
+    } catch (IllegalArgumentException e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "Invalid data:  Please check the user details and try again.", e);
+    } catch (OptimisticLockingFailureException e) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Update conflict occurred", e);
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", e);
     }
   }
 
   // get user by first name
-  @GetMapping("/first-name")
+  @GetMapping("/first-name/{firstName}")
   public ResponseEntity<User> getUser(@PathVariable String firstName) {
-    Optional<User> user = userService.getUserByFirstName(firstName);
+    List<User> user = userService.getUserByFirstName(firstName);
 
-    if (user.isPresent()) {
-      return ResponseEntity.ok(user.get()); // 200 OK
+    if (!user.isEmpty()) {
+      return ResponseEntity.ok(user.get(0)); // 200 OK
     } else {
       return ResponseEntity.notFound().build();
     }
@@ -73,10 +82,10 @@ public class UserController {
 
   @GetMapping("/last-name")
   public ResponseEntity<User> getUserLastName(@PathVariable String lastName) {
-    Optional<User> user = userService.getUserByLastName(lastName);
+    List<User> user = userService.getUserByLastName(lastName);
 
-    if (user.isPresent()) {
-      return ResponseEntity.ok(user.get()); // 200 OK
+    if (!user.isEmpty()) {
+      return ResponseEntity.ok(user.get(0)); // 200 OK
     } else {
       return ResponseEntity.notFound().build();
     }
@@ -109,27 +118,36 @@ public class UserController {
 
   @PutMapping("/{userId}")
   public ResponseEntity<User> updateUser(@PathVariable UUID userId, @RequestBody User updateUser) {
-    Optional<User> user = userService.getUserById(userId);
+    try {
+      Optional<User> user = userService.getUserById(userId);
 
-    if (user.isPresent()) {
-      updateUser.setUserId(userId);
-      userService.updateUser(updateUser);
-      return ResponseEntity.ok(updateUser);
-    } else {
-      return ResponseEntity.notFound().build();
+      if (user.isPresent()) {
+        updateUser.setUserId(userId);
+        userService.updateUser(updateUser);
+        return ResponseEntity.ok(updateUser);
+      } else {
+        return ResponseEntity.notFound().build();
+      }
+    } catch (OptimisticLockingFailureException e) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Update conflict occurred", e);
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error updating user", e);
     }
-
   }
 
   @DeleteMapping("/{userId}")
-  public ResponseEntity<User> deleteUser(@PathVariable UUID userId) {
-    Optional<User> user = userService.getUserById(userId);
+  public ResponseEntity<Void> deleteUser(@PathVariable UUID userId) {
+    try {
+      Optional<User> user = userService.getUserById(userId);
 
-    if (user.isPresent()) {
-      userService.deleteUser(userId);
-      return ResponseEntity.noContent().build(); // Return 204 No Content (successful deletion)
-    } else {
-      return ResponseEntity.notFound().build(); // Return 404 Not Found
+      if (user.isPresent()) {
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build(); // Return 204 No Content (successful deletion)
+      } else {
+        return ResponseEntity.notFound().build(); // Return 404 Not Found
+      }
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error deleting user", e);
     }
   }
 }

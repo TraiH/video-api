@@ -2,6 +2,7 @@ package com.trai.video_api.user;
 // store and retrieve users from a database
 //name, username, ID, email address
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,10 +17,10 @@ public interface UserRepository extends ListCrudRepository<User, UUID>{
 
     Optional<User> findByEmail(String email); //returns user by email address
 
-    Optional<User> findByFirstName(String firstName); 
+    List<User> findByFirstName(String firstName); 
 
-    Optional<User> findByLastName(String lastName); 
+    List<User> findByLastName(String lastName); 
 
-    // Optional<User> findAllVideos(String videoUrl);
+    Optional<User> findByUserId(UUID userId);
 
 }

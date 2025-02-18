@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
@@ -27,19 +28,36 @@ public class UserService {
     return userRepository.findById(userId);
   }
 
-   public User createUser(User user) throws IllegalArgumentException, OptimisticLockingFailureException {
-        this.userRepository.save(user);
-        return user;
+  public User createUser(User user) throws IllegalArgumentException, OptimisticLockingFailureException {
+    try {
+      return userRepository.save(user);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Invalid user data: " + e.getMessage(), e);
+    } catch (DataAccessException e) {
+      throw new RuntimeException("Database error occurred while saving the user.", e);
     }
-  public void updateUser(User updateUser) {
-    userRepository.save(updateUser); // Use save() to update
-}
+  }
 
-  public Optional<User> getUserByFirstName(String firstName) {
+  // update the user
+  public User updateUser(User updatedUser) {
+    if (userRepository.existsById(updatedUser.getUserId())) {
+      try {
+        return userRepository.save(updatedUser);
+      } catch (OptimisticLockingFailureException e) {
+        throw new OptimisticLockingFailureException("Conflict while updating the user.", e);
+      } catch (DataAccessException e) {
+        throw new RuntimeException("Database error while updating the user.", e);
+      }
+    } else {
+      throw new NoSuchElementException("User not found with ID: " + updatedUser.getUserId());
+    }
+  }
+
+  public List<User> getUserByFirstName(String firstName) {
     return this.userRepository.findByFirstName(firstName);
   }
 
-  public Optional<User> getUserByLastName(String lastName) {
+  public List<User> getUserByLastName(String lastName) {
     return this.userRepository.findByLastName(lastName);
   }
 
@@ -53,11 +71,16 @@ public class UserService {
 
   // add to service for username so it is unique if present
 
-  public void deleteUser(UUID userId) throws NoSuchElementException {
-    if (userRepository.findById(userId).isPresent()) {
-      userRepository.deleteById(userId);
+  // Delete user by ID
+  public void deleteUser(UUID userId) {
+    if (userRepository.existsById(userId)) {
+        try {
+            userRepository.deleteById(userId);
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Error occurred while deleting user ID: " + userId, e);
+        }
     } else {
-      throw new NoSuchElementException();
+        throw new NoSuchElementException("User not found with ID: " + userId);
     }
-  }
+}
 }

@@ -49,13 +49,14 @@ public class VideoController {
   // exists
   @GetMapping("/{videoId}")
   public ResponseEntity<Video> getVideo(@PathVariable UUID videoId) {
-    try{
-    Optional<Video> video = videoService.getVideoById(videoId);
+    try {
+      Optional<Video> video = videoService.getVideoById(videoId);
 
-    if (video.isPresent()) {
-      return ResponseEntity.ok(video.get()); // 200 OK
-    } else {
-      return ResponseEntity.notFound().build(); // 404 Not Found
+      if (video.isPresent()) {
+        return ResponseEntity.ok(video.get()); // 200 OK
+      } else {
+        return ResponseEntity.notFound().build(); // 404 Not Found
+      }
     } catch (IllegalArgumentException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid data:  Please check the video details and try again.", e);
     } catch (OptimisticLockingFailureException e) {
@@ -63,8 +64,9 @@ public class VideoController {
     } catch (Exception e) {
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", e);
     }
-    }
   }
+
+
 
   // fetch video by title
   @GetMapping("/title/{title}")
@@ -139,9 +141,10 @@ public class VideoController {
       return ResponseEntity.noContent().build(); // Return 204 No Content (successful deletion)
     } else {
       return ResponseEntity.notFound().build(); // Return 404 Not Found
-    } catch (Exception e) {
+    } 
+  }catch (Exception e) {
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error deleting video", e);
   }
-  }
-
 }
+}
+  
