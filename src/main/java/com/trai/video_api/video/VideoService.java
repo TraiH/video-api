@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,13 @@ public class VideoService {
 
     // saves a new video to db
     public Video createVideo(Video video) throws IllegalArgumentException, OptimisticLockingFailureException {
-        this.videoRepository.save(video);
-        return video;
+        try {
+            return videoRepository.save(video);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid video data: " + e.getMessage(), e);
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Database error occurred while saving the video.", e);
+        }
     }
 
     // fetch video from db
@@ -49,20 +55,39 @@ public class VideoService {
     // Fetch all videos for a specific user by userId
     public Optional<Video> getAllVideosForUser(UUID userId) {
         // Find all videos where the user ID matches the provided userId
-        return this.videoRepository.findById(userId);
+        try {
+            return this.videoRepository.findByUserId(userId);
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Error fetching videos for user: " + userId, e);
+        }
+
     }
 
     // update the video
-    public void updateVideo(Video updateVideo) {
-        videoRepository.save(updateVideo); // Use save() to update the video
+    public Video updateVideo(Video updatedVideo) {
+        if (videoRepository.existsById(updatedVideo.getId())) {
+            try {
+                return videoRepository.save(updatedVideo);
+            } catch (OptimisticLockingFailureException e) {
+                throw new OptimisticLockingFailureException("Conflict while updating the video.", e);
+            } catch (DataAccessException e) {
+                throw new RuntimeException("Database error while updating the video.", e);
+            }
+        } else {
+            throw new NoSuchElementException("Video not found with ID: " + updatedVideo.getId());
+        }
     }
 
-    // delete the video
-    public void deleteVideo(UUID videoId) throws NoSuchElementException {
-        if (videoRepository.findById(videoId).isPresent()) {
-            videoRepository.deleteById(videoId);
+     // Delete video by ID
+     public void deleteVideo(UUID videoId) {
+        if (videoRepository.existsById(videoId)) {
+            try {
+                videoRepository.deleteById(videoId);
+            } catch (DataAccessException e) {
+                throw new RuntimeException("Error occurred while deleting video ID: " + videoId, e);
+            }
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Video not found with ID: " + videoId);
         }
     }
 }

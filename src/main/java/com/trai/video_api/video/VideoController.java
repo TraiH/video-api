@@ -35,9 +35,11 @@ public class VideoController {
     try {
       return new ResponseEntity<Video>(this.videoService.createVideo(videoUrl), HttpStatusCode.valueOf(201));
     } catch (IllegalArgumentException e) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid data", e);
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "Invalid data:  Please check the video details and try again.", e);
     } catch (OptimisticLockingFailureException e) {
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Lock exception ocurred");
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+          "The video data was modified by another process. Please try again.");
     }
 
   }
@@ -47,12 +49,20 @@ public class VideoController {
   // exists
   @GetMapping("/{videoId}")
   public ResponseEntity<Video> getVideo(@PathVariable UUID videoId) {
+    try{
     Optional<Video> video = videoService.getVideoById(videoId);
 
     if (video.isPresent()) {
       return ResponseEntity.ok(video.get()); // 200 OK
     } else {
       return ResponseEntity.notFound().build(); // 404 Not Found
+    } catch (IllegalArgumentException e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid data:  Please check the video details and try again.", e);
+    } catch (OptimisticLockingFailureException e) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Update conflict occurred", e);
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", e);
+    }
     }
   }
 
@@ -121,6 +131,7 @@ public class VideoController {
   // delete the video
   @DeleteMapping("/{videoId}")
   public ResponseEntity<Video> deleteVideo(@PathVariable UUID videoId) {
+    try {
     Optional<Video> video = videoService.getVideoById(videoId);
 
     if (video.isPresent()) {
@@ -128,7 +139,9 @@ public class VideoController {
       return ResponseEntity.noContent().build(); // Return 204 No Content (successful deletion)
     } else {
       return ResponseEntity.notFound().build(); // Return 404 Not Found
-    }
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error deleting video", e);
+  }
   }
 
 }
