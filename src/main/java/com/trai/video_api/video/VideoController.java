@@ -30,10 +30,10 @@ public class VideoController {
   }
 
   // post a video
-  @PostMapping // should this be videoUrl rather than just video??
-  public ResponseEntity<Video> createVideo(@RequestBody Video videoUrl) {
+  @PostMapping
+  public ResponseEntity<Video> createVideo(@RequestBody Video video) {
     try {
-      return new ResponseEntity<Video>(this.videoService.createVideo(videoUrl), HttpStatusCode.valueOf(201));
+      return new ResponseEntity<Video>(this.videoService.createVideo(video), HttpStatusCode.valueOf(201));
     } catch (IllegalArgumentException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
           "Invalid data:  Please check the video details and try again.", e);
@@ -105,15 +105,15 @@ public class VideoController {
 
   }
 
-  // find all videos by specific user
-  @GetMapping("/users/{userId}/videos")
-  public ResponseEntity<Optional<Video>> getAllVideosForUser(@PathVariable UUID userId) {
-    Optional<Video> videos = videoService.getAllVideosForUser(userId);
-    if (videos.isEmpty()) {
-      return ResponseEntity.notFound().build(); // Return 404 if no videos are found
-    }
-    return ResponseEntity.ok(videos); // Return 200 OK with the list of videos
-  }
+  // //find all videos by specific user
+  // @GetMapping("/users/{userId}/videos")
+  // public ResponseEntity<Optional<Video>> getAllVideosForUser(@PathVariable UUID userId) {
+  //   Optional<Video> videos = videoService.getAllVideosForUser(userId);
+  //   if (videos.isEmpty()) {
+  //     return ResponseEntity.notFound().build(); // Return 404 if no videos are found
+  //   }
+  //   return ResponseEntity.ok(videos); // Return 200 OK with the list of videos
+  // }
 
   // update the video
   @PutMapping("/{videoId}")

@@ -52,16 +52,16 @@ public class VideoService {
         return videoRepository.findByTitleContainingIgnoreCase(title);
     }
 
-    // Fetch all videos for a specific user by userId
-    public Optional<Video> getAllVideosForUser(UUID userId) {
-        // Find all videos where the user ID matches the provided userId
-        try {
-            return this.videoRepository.findByUserId(userId);
-        } catch (DataAccessException e) {
-            throw new RuntimeException("Error fetching videos for user: " + userId, e);
-        }
+    // //Fetch all videos for a specific user by userId
+    // public Optional<Video> getAllVideosForUser(UUID userId) {
+    //     // Find all videos where the user ID matches the provided userId
+    //     try {
+    //         return this.videoRepository.findByUserid(userId);
+    //     } catch (DataAccessException e) {
+    //         throw new RuntimeException("Error fetching videos for user: " + userId, e);
+    //     }
 
-    }
+    // }
 
     // update the video
     public Video updateVideo(Video updatedVideo) {

@@ -32,7 +32,7 @@ public class User {
     private List<Video> videos;
 
     @Id // table columns
-    @GeneratedValue(strategy = GenerationType.AUTO) // GeneratedValue UUID - a unique identifier
+    @GeneratedValue(strategy = GenerationType.UUID) // GeneratedValue UUID - a unique identifier
     private UUID userId;
 
     @SuppressWarnings("deprecation")
@@ -89,6 +89,13 @@ public class User {
         return this.username;
     }
 
+    public void setFirstName(String firstName) { 
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) { 
+        this.lastName = lastName;
+    }
     public void setUsername(String username) { 
         this.username = username;
     }

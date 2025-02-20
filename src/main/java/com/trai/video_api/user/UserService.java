@@ -25,7 +25,7 @@ public class UserService {
   }
 
   public Optional<User> getUserById(UUID userId) {
-    return userRepository.findById(userId);
+    return userRepository.findByUserId(userId);
   }
 
   public User createUser(User user) throws IllegalArgumentException, OptimisticLockingFailureException {
