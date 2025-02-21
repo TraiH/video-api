@@ -1,5 +1,6 @@
 package com.trai.video_api.video;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,7 +54,7 @@ public class VideoService {
     }
 
     // //Fetch all videos for a specific user by userId
-    // public Optional<Video> getAllVideosForUser(UUID userId) {
+    // public List<Video> getAllVideosForUser(UUID userId) {
     //     // Find all videos where the user ID matches the provided userId
     //     try {
     //         return this.videoRepository.findByUserid(userId);

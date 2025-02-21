@@ -1,5 +1,6 @@
 package com.trai.video_api.video;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +20,6 @@ public interface VideoRepository extends ListCrudRepository<Video, UUID>{
 
     Optional<Video> findByTitleContainingIgnoreCase(String title); // finds partial title search
 
-    //Optional<Video> findByUserid(UUID userId);
+    //List<Video> findByUserid(UUID userId);
 
 }

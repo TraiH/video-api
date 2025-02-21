@@ -1,5 +1,6 @@
 package com.trai.video_api.video;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -107,12 +108,12 @@ public class VideoController {
 
   // //find all videos by specific user
   // @GetMapping("/users/{userId}/videos")
-  // public ResponseEntity<Optional<Video>> getAllVideosForUser(@PathVariable UUID userId) {
-  //   Optional<Video> videos = videoService.getAllVideosForUser(userId);
-  //   if (videos.isEmpty()) {
+  // public ResponseEntity<List<Video>> getAllVideosForUser(@PathVariable UUID userId) {
+  //   List<Video> video = videoService.getAllVideosForUser(userId);
+  //   if (video.isEmpty()) {
   //     return ResponseEntity.notFound().build(); // Return 404 if no videos are found
   //   }
-  //   return ResponseEntity.ok(videos); // Return 200 OK with the list of videos
+  //   return ResponseEntity.ok(video); // Return 200 OK with the list of videos
   // }
 
   // update the video
