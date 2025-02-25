@@ -33,7 +33,7 @@ public class User {
 
     @Id // table columns
     @GeneratedValue(strategy = GenerationType.UUID) // GeneratedValue UUID - a unique identifier
-    private UUID userId;
+    private UUID id;
 
     @SuppressWarnings("deprecation")
     @NotNull
@@ -65,13 +65,16 @@ public class User {
         this.profilePicture = profilePicture;
     }
 
+    public User() {
+    }
+
     // getters and setters
     public UUID getUserId() { // returns unique ID
-        return this.userId;
+        return this.id;
     }
 
     public void setUserId(UUID userId) { 
-        this.userId = userId;
+        this.id = userId;
     }
     public String getFirstName() {
         return this.firstName;

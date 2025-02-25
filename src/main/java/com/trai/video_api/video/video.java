@@ -20,10 +20,10 @@ import jakarta.persistence.Table;
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID videoId;
+    private UUID id;
 
     @ManyToOne // many videos to one user
-    @JoinColumn(name = "user_id") // JPA converts to snake case
+    @JoinColumn(name = "userId", referencedColumnName = "id") // JPA converts to snake case
     private User user;
 
     @SuppressWarnings("deprecation")
@@ -49,11 +49,11 @@ public class Video {
 
     // getters & setters
     public UUID getId() {
-        return this.videoId;
+        return this.id;
     }
 
     public void setId(UUID videoId) {
-        this.videoId = videoId;
+        this.id = videoId;
     }
     public User getUser() { // is this correct to return the userId from the User entity?
         return this.user;

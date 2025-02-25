@@ -20,6 +20,6 @@ public interface VideoRepository extends ListCrudRepository<Video, UUID>{
 
     Optional<Video> findByTitleContainingIgnoreCase(String title); // finds partial title search
 
-    //List<Video> findByUserid(UUID userId);
+    List<Video> findByUserId(UUID userId);
 
 }

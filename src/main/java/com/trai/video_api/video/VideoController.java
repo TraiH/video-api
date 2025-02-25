@@ -30,11 +30,22 @@ public class VideoController {
     this.videoService = videoService;
   }
 
+  // get all videos
+  @GetMapping()
+  public ResponseEntity <List<Video>> getAllVideos() {
+    List<Video> video = videoService.getAllVideos();
+
+    if (video.isEmpty()) {
+      return ResponseEntity.ok(video); // 200 OK
+    } else {
+      return ResponseEntity.noContent().build(); // 404 Not Found
+    }
+  }
   // post a video
-  @PostMapping
-  public ResponseEntity<Video> createVideo(@RequestBody Video video) {
+  @PostMapping ("/{userId}/videos")
+  public ResponseEntity<Video> createVideo(@RequestBody Video video, @PathVariable UUID userId) {
     try {
-      return new ResponseEntity<Video>(this.videoService.createVideo(video), HttpStatusCode.valueOf(201));
+      return new ResponseEntity<Video>(videoService.createVideo(video, userId), HttpStatusCode.valueOf(201));
     } catch (IllegalArgumentException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
           "Invalid data:  Please check the video details and try again.", e);
@@ -44,6 +55,22 @@ public class VideoController {
     }
 
   }
+
+  //  // post a video
+  //  @PostMapping
+  //  public ResponseEntity<Video> createVideo(@RequestBody Video video) {
+  //    try {
+  //      return new ResponseEntity<Video>(videoService.createVideo(video), HttpStatusCode.valueOf(201));
+  //    } catch (IllegalArgumentException e) {
+  //      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+  //          "Invalid data:  Please check the video details and try again.", e);
+  //    } catch (OptimisticLockingFailureException e) {
+  //      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+  //          "The video data was modified by another process. Please try again.");
+  //    }
+ 
+  //  }
+  
 
   // Get video
   // This method fetches a video by its id from the database and returns it if it
@@ -107,14 +134,14 @@ public class VideoController {
   }
 
   // //find all videos by specific user
-  // @GetMapping("/users/{userId}/videos")
-  // public ResponseEntity<List<Video>> getAllVideosForUser(@PathVariable UUID userId) {
-  //   List<Video> video = videoService.getAllVideosForUser(userId);
-  //   if (video.isEmpty()) {
-  //     return ResponseEntity.notFound().build(); // Return 404 if no videos are found
-  //   }
-  //   return ResponseEntity.ok(video); // Return 200 OK with the list of videos
-  // }
+  @GetMapping("/users/{userId}/videos")
+  public ResponseEntity<List<Video>> getAllVideosForUser(@PathVariable UUID userId) {
+    List<Video> video = videoService.getAllVideosForUser(userId);
+    if (video.isEmpty()) {
+      return ResponseEntity.notFound().build(); // Return 404 if no videos are found
+    }
+    return ResponseEntity.ok(video); // Return 200 OK with the list of videos
+  }
 
   // update the video
   @PutMapping("/{videoId}")

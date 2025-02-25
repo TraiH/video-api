@@ -9,28 +9,54 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
+import com.trai.video_api.user.User;
+import com.trai.video_api.user.UserRepository;
+
 //VideoService.getAllVideos()
 //Processes the business logic and delegates data retrieval to the repository.
 @Service
 public class VideoService {
 
     public final VideoRepository videoRepository;
+    public final UserRepository userRepository;
 
     // initialise the repository dependency (dependency injection) so that the
     // service layer can communicate with the database
-    public VideoService(VideoRepository videoRepository) {
+    public VideoService(VideoRepository videoRepository, UserRepository userRepository) {
+        this.userRepository = userRepository;
         this.videoRepository = videoRepository;
     }
 
     // saves a new video to db
-    public Video createVideo(Video video) throws IllegalArgumentException, OptimisticLockingFailureException {
+    public Video createVideo(Video video, UUID userId) throws IllegalArgumentException, OptimisticLockingFailureException {
         try {
+            User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
+            video.setUser(user);
             return videoRepository.save(video);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid video data: " + e.getMessage(), e);
         } catch (DataAccessException e) {
             throw new RuntimeException("Database error occurred while saving the video.", e);
         }
+    }
+
+  
+
+
+
+    // // saves a new video to db
+    // public Video createVideo(Video video) throws IllegalArgumentException, OptimisticLockingFailureException {
+    //     try {
+    //         return videoRepository.save(video);
+    //     } catch (IllegalArgumentException e) {
+    //         throw new IllegalArgumentException("Invalid video data: " + e.getMessage(), e);
+    //     } catch (DataAccessException e) {
+    //         throw new RuntimeException("Database error occurred while saving the video.", e);
+    //     }
+    // }
+    // get all videos
+    public List<Video> getAllVideos() {
+        return this.videoRepository.findAll();
     }
 
     // fetch video from db
@@ -54,15 +80,15 @@ public class VideoService {
     }
 
     // //Fetch all videos for a specific user by userId
-    // public List<Video> getAllVideosForUser(UUID userId) {
-    //     // Find all videos where the user ID matches the provided userId
-    //     try {
-    //         return this.videoRepository.findByUserid(userId);
-    //     } catch (DataAccessException e) {
-    //         throw new RuntimeException("Error fetching videos for user: " + userId, e);
-    //     }
+    public List<Video> getAllVideosForUser(UUID userId) {
+        // Find all videos where the user ID matches the provided userId
+        try {
+            return this.videoRepository.findByUserId(userId);
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Error fetching videos for user: " + userId, e);
+        }
 
-    // }
+    }
 
     // update the video
     public Video updateVideo(Video updatedVideo) {
@@ -79,8 +105,8 @@ public class VideoService {
         }
     }
 
-     // Delete video by ID
-     public void deleteVideo(UUID videoId) {
+    // Delete video by ID
+    public void deleteVideo(UUID videoId) {
         if (videoRepository.existsById(videoId)) {
             try {
                 videoRepository.deleteById(videoId);
