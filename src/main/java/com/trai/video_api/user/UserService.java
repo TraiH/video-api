@@ -69,8 +69,6 @@ public class UserService {
     return this.userRepository.findByEmail(email);
   }
 
-  // add to service for username so it is unique if present
-
   // Delete user by ID
   public void deleteUser(UUID userId) {
     if (userRepository.existsById(userId)) {

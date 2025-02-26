@@ -28,7 +28,8 @@ public class VideoService {
     }
 
     // saves a new video to db
-    public Video createVideo(Video video, UUID userId) throws IllegalArgumentException, OptimisticLockingFailureException {
+    public Video createVideo(Video video, UUID userId)
+            throws IllegalArgumentException, OptimisticLockingFailureException {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             video.setUser(user.get());
@@ -36,33 +37,8 @@ public class VideoService {
         } else {
             throw new NoSuchElementException("User not found with ID: " + userId);
         }
-        
-        
-        // try {
-        //     User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
-        //     video.setUser(user);
-        //     return videoRepository.save(video);
-        // } catch (IllegalArgumentException e) {
-        //     throw new IllegalArgumentException("Invalid video data: " + e.getMessage(), e);
-        // } catch (DataAccessException e) {
-        //     throw new RuntimeException("Database error occurred while saving the video.", e);
-        // }
     }
-
-  
-
-
-
-    // // saves a new video to db
-    // public Video createVideo(Video video) throws IllegalArgumentException, OptimisticLockingFailureException {
-    //     try {
-    //         return videoRepository.save(video);
-    //     } catch (IllegalArgumentException e) {
-    //         throw new IllegalArgumentException("Invalid video data: " + e.getMessage(), e);
-    //     } catch (DataAccessException e) {
-    //         throw new RuntimeException("Database error occurred while saving the video.", e);
-    //     }
-    // }
+    
     // get all videos
     public List<Video> getAllVideos() {
         return videoRepository.findAll();

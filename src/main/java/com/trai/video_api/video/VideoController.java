@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 //When a user fetches a video by ID, the VideoController would handle the request
 
 @RestController // needed so that it behaves like a controler
-@RequestMapping("/api/v1/videos") // have a separate VideoControllerv2.java if releasing a v2
+@RequestMapping("/api/v1") // have a separate VideoControllerv2.java if releasing a v2
 public class VideoController {
 
   private VideoService videoService;
@@ -34,7 +34,7 @@ public class VideoController {
   }
 
   // get all videos
-  @GetMapping()
+  @GetMapping("/videos")
   public ResponseEntity<List<Video>> getAllVideos() {
     List<Video> video = videoService.getAllVideos();
     return ResponseEntity.ok(video); // 200 OK
@@ -42,7 +42,7 @@ public class VideoController {
   }
 
   // post a video
-  @PostMapping("/{userId}/videos")
+  @PostMapping("/user/{userId}/videos")
   public ResponseEntity<Video> createVideo(@RequestBody Video video, @PathVariable UUID userId) {
     try {
       return new ResponseEntity<Video>(videoService.createVideo(video, userId), HttpStatusCode.valueOf(201));
@@ -56,23 +56,6 @@ public class VideoController {
     }
 
   }
-
-  // // post a video
-  // @PostMapping
-  // public ResponseEntity<Video> createVideo(@RequestBody Video video) {
-  // try {
-  // return new ResponseEntity<Video>(videoService.createVideo(video),
-  // HttpStatusCode.valueOf(201));
-  // } catch (IllegalArgumentException e) {
-  // throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-  // "Invalid data: Please check the video details and try again.", e);
-  // } catch (OptimisticLockingFailureException e) {
-  // throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-  // "The video data was modified by another process. Please try again.");
-  // }
-
-  // }
-
   // Get video
   // This method fetches a video by its id from the database and returns it if it
   // exists

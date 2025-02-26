@@ -21,6 +21,4 @@ public interface UserRepository extends ListCrudRepository<User, UUID>{
 
     List<User> findByLastName(String lastName); 
 
-    //Optional<User> findByUserId(UUID userId);
-
 }
