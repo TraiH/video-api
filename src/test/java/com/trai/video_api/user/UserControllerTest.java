@@ -86,7 +86,7 @@ public class UserControllerTest {
                 .toUri();
                 user = new User("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword",
                 Instant.now(), Instant.now(), "profilePicUrl");
-        ReflectionTestUtils.setField(user, "userId", UUID.randomUUID());
+        ReflectionTestUtils.setField(user, "id", UUID.randomUUID());
 
         defaultUsers = List.of(user);
         when(userService.getAllUsers()).thenReturn(defaultUsers);
@@ -133,7 +133,7 @@ public class UserControllerTest {
     }
     
     private static User setUserId(User user) {
-        ReflectionTestUtils.setField(user, "userId", UUID.randomUUID());
+        ReflectionTestUtils.setField(user, "id", UUID.randomUUID());
         return user;
       }
 }

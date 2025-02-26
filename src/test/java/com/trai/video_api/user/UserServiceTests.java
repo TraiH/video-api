@@ -46,7 +46,7 @@ public class UserServiceTests {
 
     @Test
     void testGetUserById_UserExists() {
-        when(userRepository.findByUserId(user.getUserId())).thenReturn(Optional.of(user));
+        when(userRepository.findById(user.getUserId())).thenReturn(Optional.of(user));
         Optional<User> foundUser = userService.getUserById(user.getUserId());
         assertTrue(foundUser.isPresent());
         assertEquals("Claire", foundUser.get().getFirstName());
@@ -54,7 +54,7 @@ public class UserServiceTests {
 
     @Test
     void testGetUserById_UserNotFound() {
-        when(userRepository.findByUserId(any(UUID.class))).thenReturn(Optional.empty());
+        when(userRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
         Optional<User> foundUser = userService.getUserById(UUID.randomUUID());
         assertFalse(foundUser.isPresent());
     }

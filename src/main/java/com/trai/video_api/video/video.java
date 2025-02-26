@@ -47,6 +47,9 @@ public class Video {
         this.videoUrl = videoUrl;
     }
 
+    public Video() {
+    }
+
     // getters & setters
     public UUID getId() {
         return this.id;
@@ -55,12 +58,12 @@ public class Video {
     public void setId(UUID videoId) {
         this.id = videoId;
     }
-    public User getUser() { // is this correct to return the userId from the User entity?
+    public User getUser() { 
         return this.user;
     }
 
-    public User setUser(User user) { // is this correct? Do I need to have a User user?
-        return this.user;
+    public User setUser(User user) { 
+        return this.user = user;
     }
 
     //set tag get tag

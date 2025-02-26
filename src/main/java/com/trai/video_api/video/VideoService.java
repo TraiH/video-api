@@ -29,15 +29,24 @@ public class VideoService {
 
     // saves a new video to db
     public Video createVideo(Video video, UUID userId) throws IllegalArgumentException, OptimisticLockingFailureException {
-        try {
-            User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
-            video.setUser(user);
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            video.setUser(user.get());
             return videoRepository.save(video);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid video data: " + e.getMessage(), e);
-        } catch (DataAccessException e) {
-            throw new RuntimeException("Database error occurred while saving the video.", e);
+        } else {
+            throw new NoSuchElementException("User not found with ID: " + userId);
         }
+        
+        
+        // try {
+        //     User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
+        //     video.setUser(user);
+        //     return videoRepository.save(video);
+        // } catch (IllegalArgumentException e) {
+        //     throw new IllegalArgumentException("Invalid video data: " + e.getMessage(), e);
+        // } catch (DataAccessException e) {
+        //     throw new RuntimeException("Database error occurred while saving the video.", e);
+        // }
     }
 
   
@@ -56,7 +65,7 @@ public class VideoService {
     // }
     // get all videos
     public List<Video> getAllVideos() {
-        return this.videoRepository.findAll();
+        return videoRepository.findAll();
     }
 
     // fetch video from db
@@ -83,7 +92,7 @@ public class VideoService {
     public List<Video> getAllVideosForUser(UUID userId) {
         // Find all videos where the user ID matches the provided userId
         try {
-            return this.videoRepository.findByUserId(userId);
+            return videoRepository.findByUserId(userId);
         } catch (DataAccessException e) {
             throw new RuntimeException("Error fetching videos for user: " + userId, e);
         }
