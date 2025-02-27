@@ -49,11 +49,11 @@ public class User {
     private String passwordHash;
     private Instant createdAt;
     private Instant updatedAt;
-    private String profilePicture;// link to their picture store in s3
+    
 
     // constructor
     public User(String firstName, String lastName, String username, String email, String passwordHash,
-            Instant createdAt, Instant updatedAt, String profilePicture) {
+            Instant createdAt, Instant updatedAt) {
         // initialise fields
         this.firstName = firstName;
         this.lastName = lastName;
@@ -62,10 +62,11 @@ public class User {
         this.passwordHash = passwordHash;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.profilePicture = profilePicture;
+        
     }
 
     public User() {
+        this(null, null, null, null, null, Instant.now(), Instant.now());
     }
 
     // getters and setters
@@ -123,11 +124,4 @@ public class User {
         return this.updatedAt;
     }
 
-    public String getProfilePicture() {
-        return this.profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
 }

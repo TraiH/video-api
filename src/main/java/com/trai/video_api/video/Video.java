@@ -48,6 +48,7 @@ public class Video {
     }
 
     public Video() {
+        this(null, null, null, null, Instant.now(), Instant.now(), null);
     }
 
     // getters & setters

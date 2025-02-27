@@ -19,6 +19,8 @@ public class UserService {
     this.userRepository = userRepository;
   }
 
+  //passwordHash here 
+
   // returns all users
   public List<User> getAllUsers() {
     return this.userRepository.findAll();
