@@ -16,15 +16,15 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -33,50 +33,51 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.trai.video_api.VideoApiApplication;
-import com.trai.video_api.VideoApiApplicationTests;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 @SpringBootTest(classes = VideoApiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
 public class UserControllerTest {
-    
-@LocalServerPort
-	private int port;
 
-	private URI baseURI;
+    @LocalServerPort
+    private int port; // injects the port that the test is running on
 
-	@Autowired
-	private TestRestTemplate restTemplate;
+    private URI baseURI; // stores the base URI for the endpoints
 
-    private MockMvc mockMvc;
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    private MockMvc mockMvc; // stores the object for mock HTTP requests
 
     @MockitoBean
-    private UserService userService;
+    private UserService userService; // injects a mock UserService object
 
     @InjectMocks
     private UserController userController;
 
-    private User user = new User ("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword", Instant.now(), Instant.now());
-    private List<User> defaultUsers = new ArrayList<>(){    
+    // create a user object with sample data
+    private User user = new User("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword",
+            Instant.now(), Instant.now());
+
+    // initialises a list of user objects with sample data
+    private List<User> defaultUsers = new ArrayList<>() {
         {
             add(new User("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword",
-        Instant.now(), Instant.now()));
+                    Instant.now(), Instant.now()));
             add(new User("Tom", "Riley", "Tom48", "tom.riley@testexample.com", "hashedPassword",
-        Instant.now(), Instant.now()));
+                    Instant.now(), Instant.now()));
         }
     };
-    
 
-    @BeforeEach
+    @BeforeEach // runs before each test
     void setUp() throws RuntimeException {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-        
+
         this.baseURI = UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host("localhost")
@@ -84,7 +85,7 @@ public class UserControllerTest {
                 .path("api/v1/users")
                 .build()
                 .toUri();
-                user = new User("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword",
+        user = new User("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword",
                 Instant.now(), Instant.now());
         ReflectionTestUtils.setField(user, "id", UUID.randomUUID());
 
@@ -92,14 +93,14 @@ public class UserControllerTest {
         when(userService.getAllUsers()).thenReturn(defaultUsers);
         when(userService.getUserById(user.getUserId())).thenReturn(Optional.of(user));
     }
-    
-    @Test
+
+    @Test // checks it returns the correct user by userId
     void testGetUserByUserId_UserExists() throws Exception {
         when(userService.getUserById(user.getUserId())).thenReturn(Optional.of(user));
 
         mockMvc.perform(get("/api/v1/users/" + user.getUserId()))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.firstName").value("Claire"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName").value("Claire"));
     }
 
     @Test
@@ -107,7 +108,7 @@ public class UserControllerTest {
         when(userService.getUserById(any(UUID.class))).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/api/v1/users/" + UUID.randomUUID()))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -129,12 +130,11 @@ public class UserControllerTest {
         doNothing().when(userService).deleteUser(user.getUserId());
 
         mockMvc.perform(delete("/api/v1/users/" + user.getUserId()))
-            .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent());
     }
-    
+
     private static User setUserId(User user) {
         ReflectionTestUtils.setField(user, "id", UUID.randomUUID());
         return user;
-      }
+    }
 }
-    
