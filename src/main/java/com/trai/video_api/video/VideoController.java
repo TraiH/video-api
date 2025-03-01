@@ -16,15 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.trai.video_api.user.User;
-
 import org.springframework.web.bind.annotation.PutMapping;
 
 //When a user fetches a video by ID, the VideoController would handle the request
 
 @RestController // needed so that it behaves like a controler
-@RequestMapping("/api/v1/videos") // have a separate VideoControllerv2.java if releasing a v2
+@RequestMapping("/api/v1") // have a separate VideoControllerv2.java if releasing a v2
 public class VideoController {
 
   private VideoService videoService;
@@ -34,7 +31,7 @@ public class VideoController {
   }
 
   // get all videos
-  @GetMapping()
+  @GetMapping("/videos")
   public ResponseEntity<List<Video>> getAllVideos() {
     List<Video> video = videoService.getAllVideos();
     return ResponseEntity.ok(video); // 200 OK
@@ -42,7 +39,7 @@ public class VideoController {
   }
 
   // post a video
-  @PostMapping("/{userId}/videos")
+  @PostMapping("/user/{userId}/videos")
   public ResponseEntity<Video> createVideo(@RequestBody Video video, @PathVariable UUID userId) {
     try {
       return new ResponseEntity<Video>(videoService.createVideo(video, userId), HttpStatusCode.valueOf(201));
@@ -56,23 +53,6 @@ public class VideoController {
     }
 
   }
-
-  // // post a video
-  // @PostMapping
-  // public ResponseEntity<Video> createVideo(@RequestBody Video video) {
-  // try {
-  // return new ResponseEntity<Video>(videoService.createVideo(video),
-  // HttpStatusCode.valueOf(201));
-  // } catch (IllegalArgumentException e) {
-  // throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-  // "Invalid data: Please check the video details and try again.", e);
-  // } catch (OptimisticLockingFailureException e) {
-  // throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-  // "The video data was modified by another process. Please try again.");
-  // }
-
-  // }
-
   // Get video
   // This method fetches a video by its id from the database and returns it if it
   // exists
@@ -82,9 +62,9 @@ public class VideoController {
       Optional<Video> video = videoService.getVideoById(videoId);
 
       if (video.isPresent()) {
-        return ResponseEntity.ok(video.get()); // 200 OK
+        return ResponseEntity.ok(video.get()); 
       } else {
-        return ResponseEntity.notFound().build(); // 404 Not Found
+        return ResponseEntity.notFound().build();
       }
     } catch (IllegalArgumentException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -102,9 +82,9 @@ public class VideoController {
     Optional<Video> video = videoService.getVideoByTitle(title);
 
     if (video.isPresent()) {
-      return ResponseEntity.ok(video.get()); // 200 OK
+      return ResponseEntity.ok(video.get()); 
     } else {
-      return ResponseEntity.notFound().build(); // 404 Not Found
+      return ResponseEntity.notFound().build(); 
     }
   }
 
@@ -114,9 +94,9 @@ public class VideoController {
     Optional<Video> video = videoService.getVideoByTags(tags);
 
     if (video.isPresent()) {
-      return ResponseEntity.ok(video.get()); // 200 OK
+      return ResponseEntity.ok(video.get()); 
     } else {
-      return ResponseEntity.notFound().build(); // 404 Not Found
+      return ResponseEntity.notFound().build(); 
     }
   }
 
@@ -128,7 +108,7 @@ public class VideoController {
     if (video.isPresent()) {
       return ResponseEntity.ok(video.get());
     } else {
-      return ResponseEntity.notFound().build(); // 404 if no videos found
+      return ResponseEntity.notFound().build(); 
     }
 
   }
@@ -138,10 +118,10 @@ public class VideoController {
   public ResponseEntity<List<Video>> getAllVideosForUser(@PathVariable UUID userId) {
     List<Video> video = videoService.getAllVideosForUser(userId);
     if (video.isEmpty()) {
-      return ResponseEntity.notFound().build(); // Return 404 if no videos are found
+      return ResponseEntity.notFound().build(); 
     }
-    return ResponseEntity.ok(video); // Return 200 OK with the list of videos
-  }
+    return ResponseEntity.ok(video); 
+  }  
 
   // update the video
   @PutMapping("/{videoId}")

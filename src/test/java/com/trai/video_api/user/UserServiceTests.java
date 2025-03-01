@@ -27,12 +27,12 @@ public class UserServiceTests {
     private UserService userService;
 
     private User user;
-    
+
     @BeforeEach
     void setUp() {
         user = new User("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword",
-                Instant.now(), Instant.now(), "profilePicUrl");
-                System.out.println(user.getUserId());
+                Instant.now(), Instant.now());
+        System.out.println(user.getUserId());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class UserServiceTests {
         assertDoesNotThrow(() -> userService.deleteUser(userId));
         verify(userRepository, times(1)).deleteById(userId);
     }
-    
+
     @Test
     void testDeleteUser_Failure() {
         UUID userId = user.getUserId();
@@ -83,5 +83,3 @@ public class UserServiceTests {
         assertThrows(NoSuchElementException.class, () -> userService.deleteUser(userId));
     }
 }
-
-

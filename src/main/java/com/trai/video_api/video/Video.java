@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "videos")
-public class Video {
+public class Video  {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -33,7 +33,7 @@ public class Video {
     private String description;
     private Instant createdAt;
     private Instant updatedAt;
-    private String videoUrl; // temporary signed S3 URL
+    private String videoUrl;
 
     // constructor
     public Video(User user, String title, String tags, String description, Instant createdAt, Instant updatedAt, String videoUrl) {
@@ -48,6 +48,7 @@ public class Video {
     }
 
     public Video() {
+        this(null, null, null, null, Instant.now(), Instant.now(), null);
     }
 
     // getters & setters
@@ -66,7 +67,6 @@ public class Video {
         return this.user = user;
     }
 
-    //set tag get tag
     public String getTags(String tags) {
         return this.tags;
     }
