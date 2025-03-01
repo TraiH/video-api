@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.trai.video_api.user.User;
-
 import org.springframework.web.bind.annotation.PutMapping;
 
 //When a user fetches a video by ID, the VideoController would handle the request
@@ -37,7 +34,7 @@ public class VideoController {
   @GetMapping("/videos")
   public ResponseEntity<List<Video>> getAllVideos() {
     List<Video> video = videoService.getAllVideos();
-    return ResponseEntity.ok(video); // 200 OK
+    return ResponseEntity.ok(video); 
 
   }
 
@@ -65,9 +62,9 @@ public class VideoController {
       Optional<Video> video = videoService.getVideoById(videoId);
 
       if (video.isPresent()) {
-        return ResponseEntity.ok(video.get()); // 200 OK
+        return ResponseEntity.ok(video.get()); 
       } else {
-        return ResponseEntity.notFound().build(); // 404 Not Found
+        return ResponseEntity.notFound().build();
       }
     } catch (IllegalArgumentException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -85,9 +82,9 @@ public class VideoController {
     Optional<Video> video = videoService.getVideoByTitle(title);
 
     if (video.isPresent()) {
-      return ResponseEntity.ok(video.get()); // 200 OK
+      return ResponseEntity.ok(video.get()); 
     } else {
-      return ResponseEntity.notFound().build(); // 404 Not Found
+      return ResponseEntity.notFound().build(); 
     }
   }
 
@@ -97,9 +94,9 @@ public class VideoController {
     Optional<Video> video = videoService.getVideoByTags(tags);
 
     if (video.isPresent()) {
-      return ResponseEntity.ok(video.get()); // 200 OK
+      return ResponseEntity.ok(video.get()); 
     } else {
-      return ResponseEntity.notFound().build(); // 404 Not Found
+      return ResponseEntity.notFound().build(); 
     }
   }
 
@@ -111,7 +108,7 @@ public class VideoController {
     if (video.isPresent()) {
       return ResponseEntity.ok(video.get());
     } else {
-      return ResponseEntity.notFound().build(); // 404 if no videos found
+      return ResponseEntity.notFound().build(); 
     }
 
   }
@@ -121,10 +118,10 @@ public class VideoController {
   public ResponseEntity<List<Video>> getAllVideosForUser(@PathVariable UUID userId) {
     List<Video> video = videoService.getAllVideosForUser(userId);
     if (video.isEmpty()) {
-      return ResponseEntity.notFound().build(); // Return 404 if no videos are found
+      return ResponseEntity.notFound().build(); 
     }
-    return ResponseEntity.ok(video); // Return 200 OK with the list of videos
-  }
+    return ResponseEntity.ok(video); 
+  }  
 
   // update the video
   @PutMapping("/{videoId}")
@@ -136,7 +133,7 @@ public class VideoController {
       videoService.updateVideo(updatedVideo);
       return ResponseEntity.ok(updatedVideo);
     } else {
-      return ResponseEntity.notFound().build(); // 404 if no videos found
+      return ResponseEntity.notFound().build(); 
     }
 
   }

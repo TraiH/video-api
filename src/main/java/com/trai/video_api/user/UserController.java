@@ -45,7 +45,7 @@ public class UserController {
   @GetMapping
   public ResponseEntity<List<User>> getAllUsers() {
     List<User> users = userService.getAllUsers(); // Fetch all users from service
-    return ResponseEntity.ok(users); // Return 200 OK with the list of all users
+    return ResponseEntity.ok(users); 
   }
 
   @GetMapping("/{userId}")
@@ -54,7 +54,7 @@ public class UserController {
       Optional<User> user = userService.getUserById(userId);
 
       if (user.isPresent()) {
-        return ResponseEntity.ok(user.get()); // 200 OK
+        return ResponseEntity.ok(user.get());
       } else {
         return ResponseEntity.notFound().build(); // 404 Not Found
       }
@@ -70,7 +70,7 @@ public class UserController {
 
   // get user by first name
   @GetMapping("/first-name/{firstName}")
-  public ResponseEntity<User> getUser(@PathVariable String firstName) {
+  public ResponseEntity<User>getUserFirstName(@PathVariable String firstName) {
     List<User> user = userService.getUserByFirstName(firstName);
 
     if (!user.isEmpty()) {
@@ -80,36 +80,36 @@ public class UserController {
     }
   }
 
-  @GetMapping("/last-name")
-  public ResponseEntity<User> getUserLastName(@PathVariable String lastName) {
+  @GetMapping("/last-name/{lastName}")
+  public ResponseEntity<User>getUserLastName(@PathVariable String lastName) {
     List<User> user = userService.getUserByLastName(lastName);
 
     if (!user.isEmpty()) {
-      return ResponseEntity.ok(user.get(0)); // 200 OK
+      return ResponseEntity.ok(user.get(0)); 
     } else {
       return ResponseEntity.notFound().build();
     }
 
   }
 
-  @GetMapping("/username")
+  @GetMapping("/username/{username}")
   public ResponseEntity<User> getUsername(@PathVariable String username) {
     Optional<User> user = userService.getUserByUsername(username);
 
     if (user.isPresent()) {
-      return ResponseEntity.ok(user.get()); // 200 OK
+      return ResponseEntity.ok(user.get()); 
     } else {
       return ResponseEntity.notFound().build();
     }
 
   }
 
-  @GetMapping("/email")
+  @GetMapping("/email/{email}")
   public ResponseEntity<User> getEmail(@PathVariable String email) {
     Optional<User> user = userService.getUserByEmail(email);
 
     if (user.isPresent()) {
-      return ResponseEntity.ok(user.get()); // 200 OK
+      return ResponseEntity.ok(user.get()); 
     } else {
       return ResponseEntity.notFound().build();
     }
@@ -142,9 +142,9 @@ public class UserController {
 
       if (user.isPresent()) {
         userService.deleteUser(userId);
-        return ResponseEntity.noContent().build(); // Return 204 No Content (successful deletion)
+        return ResponseEntity.noContent().build(); 
       } else {
-        return ResponseEntity.notFound().build(); // Return 404 Not Found
+        return ResponseEntity.notFound().build(); 
       }
     } catch (Exception e) {
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error deleting user", e);

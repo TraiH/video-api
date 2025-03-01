@@ -61,13 +61,13 @@ public class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
-    private User user = new User ("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword", Instant.now(), Instant.now(), "profilePicUrl");
+    private User user = new User ("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword", Instant.now(), Instant.now());
     private List<User> defaultUsers = new ArrayList<>(){    
         {
             add(new User("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword",
-        Instant.now(), Instant.now(), "profilePicUrl"));
+        Instant.now(), Instant.now()));
             add(new User("Tom", "Riley", "Tom48", "tom.riley@testexample.com", "hashedPassword",
-        Instant.now(), Instant.now(), "profilePicUrl"));
+        Instant.now(), Instant.now()));
         }
     };
     
@@ -85,7 +85,7 @@ public class UserControllerTest {
                 .build()
                 .toUri();
                 user = new User("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword",
-                Instant.now(), Instant.now(), "profilePicUrl");
+                Instant.now(), Instant.now());
         ReflectionTestUtils.setField(user, "id", UUID.randomUUID());
 
         defaultUsers = List.of(user);

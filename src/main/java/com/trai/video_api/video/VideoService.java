@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.trai.video_api.user.User;
 import com.trai.video_api.user.UserRepository;
 
-//VideoService.getAllVideos()
 //Processes the business logic and delegates data retrieval to the repository.
 @Service
 public class VideoService {

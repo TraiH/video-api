@@ -14,11 +14,11 @@ public interface VideoRepository extends ListCrudRepository<Video, UUID>{
 
     // querie methods use optional rather than list because I want a unique result
 
-    Optional<Video> findByTitle(String title); //returns video by title
+    Optional<Video> findByTitle(String title); 
 
-    Optional<Video> findByTags(String tags); //returns user by tags
+    Optional<Video> findByTags(String tags); 
 
-    Optional<Video> findByTitleContainingIgnoreCase(String title); // finds partial title search
+    Optional<Video> findByTitleContainingIgnoreCase(String title);
 
     List<Video> findByUserId(UUID userId);
 

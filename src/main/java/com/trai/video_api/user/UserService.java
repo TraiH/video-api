@@ -11,15 +11,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-  public final UserRepository userRepository;
+  private final UserRepository userRepository;
 
   // initialise the repository dependency (dependency injection) so that the
   // service layer can communicate with the database
   public UserService(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
-
-  //passwordHash here 
 
   // returns all users
   public List<User> getAllUsers() {
@@ -63,8 +61,8 @@ public class UserService {
     return this.userRepository.findByLastName(lastName);
   }
 
-  public Optional<User> getUserByUsername(String userame) {
-    return this.userRepository.findByUsername(userame);
+  public Optional<User> getUserByUsername(String username) {
+    return this.userRepository.findByUsername(username);
   }
 
   public Optional<User> getUserByEmail(String email) {
@@ -74,13 +72,13 @@ public class UserService {
   // Delete user by ID
   public void deleteUser(UUID userId) {
     if (userRepository.existsById(userId)) {
-        try {
-            userRepository.deleteById(userId);
-        } catch (DataAccessException e) {
-            throw new RuntimeException("Error occurred while deleting user ID: " + userId, e);
-        }
+      try {
+        userRepository.deleteById(userId);
+      } catch (DataAccessException e) {
+        throw new RuntimeException("Error occurred while deleting user ID: " + userId, e);
+      }
     } else {
-        throw new NoSuchElementException("User not found with ID: " + userId);
+      throw new NoSuchElementException("User not found with ID: " + userId);
     }
-}
+  }
 }

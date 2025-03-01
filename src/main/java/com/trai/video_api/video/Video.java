@@ -33,7 +33,7 @@ public class Video {
     private String description;
     private Instant createdAt;
     private Instant updatedAt;
-    private String videoUrl; // temporary signed S3 URL
+    private String videoUrl;
 
     // constructor
     public Video(User user, String title, String tags, String description, Instant createdAt, Instant updatedAt, String videoUrl) {
@@ -67,7 +67,6 @@ public class Video {
         return this.user = user;
     }
 
-    //set tag get tag
     public String getTags(String tags) {
         return this.tags;
     }

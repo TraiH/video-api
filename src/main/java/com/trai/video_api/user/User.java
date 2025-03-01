@@ -23,16 +23,15 @@ import jakarta.persistence.OneToMany;
 @Table(name = "users", indexes = {
         @Index(name = "idx_username", columnList = "username", unique = true),
         @Index(name = "idx_email", columnList = "email", unique = true)
-}) // creates a table called users with index so that it is quicker to find by
-   // username and email as long as the username and emails are unique
+}) 
 
 public class User {
-    @OneToMany(mappedBy = "user") // connects entity user to video one user to many videos
+    @OneToMany(mappedBy = "user")
 
     private List<Video> videos;
 
     @Id // table columns
-    @GeneratedValue(strategy = GenerationType.UUID) // GeneratedValue UUID - a unique identifier
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @SuppressWarnings("deprecation")
@@ -45,21 +44,21 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String email;
+    private String password;
 
-    private String passwordHash;
     private Instant createdAt;
     private Instant updatedAt;
     
 
     // constructor
-    public User(String firstName, String lastName, String username, String email, String passwordHash,
+    public User(String firstName, String lastName, String username, String email, String password,
             Instant createdAt, Instant updatedAt) {
         // initialise fields
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         
@@ -70,7 +69,7 @@ public class User {
     }
 
     // getters and setters
-    public UUID getUserId() { // returns unique ID
+    public UUID getUserId() {
         return this.id;
     }
 
@@ -104,7 +103,7 @@ public class User {
         this.username = username;
     }
 
-    public String getEmail() { // returns email address - need exception incase wrong email address format?
+    public String getEmail() { 
         return this.email;
     }
 
@@ -112,8 +111,12 @@ public class User {
         this.email = email;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public String getPassword() { 
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Instant getCreatedAt() {

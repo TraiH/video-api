@@ -31,7 +31,7 @@ public class UserServiceTests {
     @BeforeEach
     void setUp() {
         user = new User("Claire", "Timmons", "claire23", "claire.timmons@testexample.com", "hashedPassword",
-                Instant.now(), Instant.now(), "profilePicUrl");
+                Instant.now(), Instant.now());
                 System.out.println(user.getUserId());
     }
 
