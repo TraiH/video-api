@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "videos")
-public class Video {
+public class Video  {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

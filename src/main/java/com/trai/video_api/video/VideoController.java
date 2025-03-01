@@ -34,7 +34,7 @@ public class VideoController {
   @GetMapping("/videos")
   public ResponseEntity<List<Video>> getAllVideos() {
     List<Video> video = videoService.getAllVideos();
-    return ResponseEntity.ok(video); 
+    return ResponseEntity.ok(video); // 200 OK
 
   }
 
@@ -133,7 +133,7 @@ public class VideoController {
       videoService.updateVideo(updatedVideo);
       return ResponseEntity.ok(updatedVideo);
     } else {
-      return ResponseEntity.notFound().build(); 
+      return ResponseEntity.notFound().build(); // 404 if no videos found
     }
 
   }

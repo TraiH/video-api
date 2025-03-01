@@ -44,7 +44,7 @@ exit;
 ### Initialise Project
 
 1. Open your repository in VS Code
-2. Add the following values to src/main/resources/application.properties:
+2. Add the following values to `src/main/resources/application.properties`:
 
 ```properties
 spring.application.name=video-api
@@ -53,13 +53,13 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.open-in-view=true
 spring.config.import=optional:./local.properties
 ```
-3. In order to prevent sensitive values from being committed to version control, add a new entry to the .gitignore file:
+3. In order to prevent sensitive values from being committed to version control, add a new entry to the `.gitignore` file:
 
 ```
 local.properties
 ```
 
-4. Create a new file at src/main/resources/local.properties and paste in the following: 
+4. Create a new file at `src/main/resources/local.properties` and paste in the following: 
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/videos
@@ -103,6 +103,22 @@ To stop the API
 ```
 Press `Ctrl + C`
 ```
+### Import MySQL Dump
+To set up the database using the provided MySQL dump file, follow these steps:
+
+1. Open Terminal: Open your terminal or command prompt.
+
+2. Navigate to the Project Directory: Change to the directory where the database_dump.sql file is located.
+```sh
+cd /path/to/your/project 
+```
+
+3. Import the Dump File: Use the `mysql` command to import the dump file into your MySQL database. Replace `YOUR_DATABASE_NAME`, `YOUR_USERNAME`, and `YOUR_PASSWORD` with your actual database name, MySQL username, and password.
+
+For example, if your database name is `videos`, your username is `root`, and your password is `password123`, the command would be:
+
+Enter Password: Enter your MySQL password when prompted.
+
 ## Project Structure
 ```
 video-api/
@@ -123,7 +139,8 @@ video-api/
 │                   └── video_api/
 ├── .gitignore
 ├── README.md
-└── pom.xml
+├── pom.xml
+└── database_dump.sql
 ```
 ## Running Tests
 To run the tests for this project, use the following command:
